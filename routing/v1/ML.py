@@ -38,10 +38,12 @@ async def get_file(file: UploadFile):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="the file must not to be empty")
 
     positive, negative = get_main_words(text)
+    rating = random.choice(list(RatingChoice))
     return {
         "positive": positive,
         "negative": negative,
-        "rating": random.choice(list(RatingChoice))
+        "rating": rating,
+        "rating_name": rating.name,
     }
 
 
@@ -55,8 +57,10 @@ async def get_text(req: MLTextRequest):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="the file must not to be empty")
 
     positive, negative = get_main_words(req.text)
+    rating = random.choice(list(RatingChoice))
     return {
         "positive": positive,
         "negative": negative,
-        "rating": random.choice(list(RatingChoice))
+        "rating": rating,
+        "rating_name": rating.name,
     }
