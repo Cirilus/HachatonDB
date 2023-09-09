@@ -19,7 +19,7 @@ router = APIRouter(prefix="/api/v1/ml", tags=["ml"])
     response_model=MlResponse,
  )
 async def get_file(file: UploadFile):
-    file_extension = os.path.splitext(file.filename)[1]
+    file_extension = os.path.splitext(file.filename)[1].lower()
     if file_extension not in {".txt", ".docx"}:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File must be a .txt or .docx file")
 
@@ -44,6 +44,7 @@ async def get_file(file: UploadFile):
         "negative": negative,
         "rating": rating,
         "rating_name": rating.name,
+        "company_name": "Central Bank",
     }
 
 
@@ -63,4 +64,5 @@ async def get_text(req: MLTextRequest):
         "negative": negative,
         "rating": rating,
         "rating_name": rating.name,
+        "company_name": "Central Bank",
     }
