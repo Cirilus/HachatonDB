@@ -2,13 +2,20 @@ from enum import Enum
 
 
 class RatingChoice(int, Enum):
-    AA = 100
-    A = 90
-    BB = 80
-    B = 70
-    CC = 60
-    C = 50
-    DD = 40
-    D = 30
-    EE = 20
-    E = 10
+    A = 100
+    A1 = 95
+    A2 = 90
+    AA = 80
+    AA1 = 85
+    AA2 = 75
+    AAA = 70
+    B = 65
+    B1 = 60
+    B2 = 55
+    BB = 50
+    BB1 = 45
+    BB2 = 40
+    BBB = 35
+    BBB1 = 30
+    BBB2 = 25
+    C = 20

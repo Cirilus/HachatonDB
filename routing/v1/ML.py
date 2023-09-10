@@ -9,7 +9,7 @@ from schemas.Rating import RatingChoice
 from schemas.MLResponse import MLTextRequest, MlResponse
 from docx import Document
 
-from utils.utils import get_main_words
+from MLModel.main import tokenizer, model, get_main_words, predict_text
 
 router = APIRouter(prefix="/api/v1/ml", tags=["ml"])
 
@@ -37,13 +37,17 @@ async def get_file(file: UploadFile):
     if text == "":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="the file must not to be empty")
 
-    positive, negative = get_main_words(text)
-    rating = random.choice(list(RatingChoice))
+    positive, negative = get_main_words(text, model, tokenizer)
+    rating = predict_text(text, model, tokenizer)
+    enum = [el.value for el in RatingChoice]
+    enum_dict = {el.value: el.name for el in RatingChoice}
+    rating = enum[rating]
+    rating_name = enum_dict[rating]
     return {
         "positive": positive,
         "negative": negative,
         "rating": rating,
-        "rating_name": rating.name,
+        "rating_name": rating_name,
         "company_name": "Central Bank",
     }
 
@@ -57,12 +61,16 @@ async def get_text(req: MLTextRequest):
     if req.text == "":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="the file must not to be empty")
 
-    positive, negative = get_main_words(req.text)
-    rating = random.choice(list(RatingChoice))
+    positive, negative = get_main_words(req.text, model, tokenizer)
+    rating = predict_text(req.text, model, tokenizer)
+    enum = [el.value for el in RatingChoice]
+    enum_dict = {el.value: el.name for el in RatingChoice}
+    rating = enum[rating]
+    rating_name = enum_dict[rating]
     return {
         "positive": positive,
         "negative": negative,
         "rating": rating,
-        "rating_name": rating.name,
+        "rating_name": rating_name,
         "company_name": "Central Bank",
     }
